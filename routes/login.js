@@ -16,8 +16,8 @@ router.get('/',(req, res, next)=>{
       if (rows.length != 0) {
         if (rows[0].user_pwd == password) {
           res.send({
-            state: 1,
-            message: '登陆成功',
+            state: 200,
+            msg: '登陆成功',
             user: userName
           })
         } else res.send({

@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 let mysql = require('../config/connect');
 
+/*router.get('/test',(req,res)=>{
+  let sql="select * from m_shop_goods where id = 1006013"
+  mysql.query(sql,(err,rows)=>{
+    if(err){
+      res.send(err)
+    }
+    else{
+      res.send(rows)
+    }
+  })
+})*/
 
 router.get('/',(req,res)=>{
   const type = req.query.type

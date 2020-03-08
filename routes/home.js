@@ -16,7 +16,7 @@ router.get('/Banner', function(req, res, next) {
     {id: '003',imgUrl: 'http://127.0.0.1:3000/images/swiper/lb3.jpg', link: 'https://www.baidu.com'},
     {id: '004',imgUrl: 'http://127.0.0.1:3000/images/swiper/lb4.jpg', link: 'https://www.baidu.com'}
   ]
-  res.send({list});
+  res.send(list);
 });
 
 router.get('/Recommend', function (req, res, next) {
@@ -29,7 +29,7 @@ router.get('/Recommend', function (req, res, next) {
   res.send(list)
 })
 
-router.get('/news', function (req, res, next) {
+router.get('/News', function (req, res, next) {
   const news = {
     imgUrl: 'http://127.0.0.1:3000/images/feature/view.jpg',
     link: 'https://www.baidu.com'
