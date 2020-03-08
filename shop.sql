@@ -11,11 +11,29 @@
  Target Server Version : 50722
  File Encoding         : 65001
 
- Date: 11/11/2019 13:01:36
+ Date: 08/03/2020 16:34:59
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for book
+-- ----------------------------
+DROP TABLE IF EXISTS `book`;
+CREATE TABLE `book`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `author` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `test` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of book
+-- ----------------------------
+INSERT INTO `book` VALUES (1, 'a', 'b', 'ar');
+INSERT INTO `book` VALUES (2, 'c', 'd', 'w');
 
 -- ----------------------------
 -- Table structure for m_shop_collect
@@ -34,6 +52,8 @@ CREATE TABLE `m_shop_collect`  (
 -- Records of m_shop_collect
 -- ----------------------------
 INSERT INTO `m_shop_collect` VALUES ('mmbbhh', 1071006);
+INSERT INTO `m_shop_collect` VALUES ('mmbbhh', 1092026);
+INSERT INTO `m_shop_collect` VALUES ('mmbbhh', 1156006);
 
 -- ----------------------------
 -- Table structure for m_shop_goods
@@ -343,16 +363,25 @@ CREATE TABLE `m_shop_order`  (
   INDEX `id`(`goods_id`) USING BTREE,
   CONSTRAINT `id` FOREIGN KEY (`goods_id`) REFERENCES `m_shop_goods` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `name` FOREIGN KEY (`user_name`) REFERENCES `m_shop_user` (`user_name`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of m_shop_order
+-- Table structure for m_shop_role
 -- ----------------------------
-INSERT INTO `m_shop_order` VALUES (27, 'mmbbhh', 1055012, 3, '2019-11-09 21:32:16');
-INSERT INTO `m_shop_order` VALUES (28, 'mmbbhh', 1030002, 4, '2019-11-09 21:32:16');
-INSERT INTO `m_shop_order` VALUES (29, 'mmbbhh', 1071006, 2, '2019-11-09 21:32:37');
-INSERT INTO `m_shop_order` VALUES (30, 'mmbbhh', 1027004, 2, '2019-11-09 21:32:37');
-INSERT INTO `m_shop_order` VALUES (41, 'mmbbhh', 1092026, 1, '2019-11-09 22:59:27');
+DROP TABLE IF EXISTS `m_shop_role`;
+CREATE TABLE `m_shop_role`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `nameZh` varchar(32) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of m_shop_role
+-- ----------------------------
+INSERT INTO `m_shop_role` VALUES (1, 'ROLE_dba', '数据库管理员');
+INSERT INTO `m_shop_role` VALUES (2, 'ROLE_admin', '系统管理员');
+INSERT INTO `m_shop_role` VALUES (3, 'ROLE_user', '用户');
 
 -- ----------------------------
 -- Table structure for m_shop_user
@@ -360,22 +389,60 @@ INSERT INTO `m_shop_order` VALUES (41, 'mmbbhh', 1092026, 1, '2019-11-09 22:59:2
 DROP TABLE IF EXISTS `m_shop_user`;
 CREATE TABLE `m_shop_user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `user_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `user_pwd` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `user_phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `user_sex` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`, `user_name`) USING BTREE,
+  `enabled` tinyint(1) NULL DEFAULT NULL,
+  `locked` tinyint(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_name`(`user_name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of m_shop_user
 -- ----------------------------
-INSERT INTO `m_shop_user` VALUES (1, 'mmbbhh', '4c789c1a06f7b431c6a09c96c9cc9883', '13012345678', '男');
-INSERT INTO `m_shop_user` VALUES (2, 'lala', '5656161', '13546987452', '男');
-INSERT INTO `m_shop_user` VALUES (3, 'love', 'd70f99b50a39caf1f6253e78be00560b', '13546874562', '女');
-INSERT INTO `m_shop_user` VALUES (4, 'www', 'fcea920f7412b5da7be0cf42b8c93759', '14785213654', '女');
-INSERT INTO `m_shop_user` VALUES (5, 'qqq', 'fcea920f7412b5da7be0cf42b8c93759', '13021354879', '男');
-INSERT INTO `m_shop_user` VALUES (6, 'apq123', 'fcea920f7412b5da7be0cf42b8c93759', '13021365478', '女');
+INSERT INTO `m_shop_user` VALUES (1, 'mmbbhh', '$2a$10$RMuFXGQ5AtH4wOvkUqyvuecpqUSeoxZYqilXzbz50dceRsga.WYiq', '13012345678', '男', 1, 0);
+
+-- ----------------------------
+-- Table structure for m_shop_user_role
+-- ----------------------------
+DROP TABLE IF EXISTS `m_shop_user_role`;
+CREATE TABLE `m_shop_user_role`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` int(11) NULL DEFAULT NULL,
+  `rid` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of m_shop_user_role
+-- ----------------------------
+INSERT INTO `m_shop_user_role` VALUES (1, 1, 1);
+INSERT INTO `m_shop_user_role` VALUES (2, 1, 2);
+
+-- ----------------------------
+-- Table structure for test
+-- ----------------------------
+DROP TABLE IF EXISTS `test`;
+CREATE TABLE `test`  (
+  `data` varchar(24) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `list_pic_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品列表图',
+  `name` varchar(120) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '',
+  `retail_price` decimal(10, 2) UNSIGNED NULL DEFAULT 0.00 COMMENT '零售价格',
+  `goods_num` int(11) NULL DEFAULT NULL COMMENT '购买数量'
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of test
+-- ----------------------------
+INSERT INTO `test` VALUES ('2019-11-09 21:32:16', 'http://yanxuan.nosdn.127.net/3d437c8d68e2ec3f3dd61001bf98f16e.png', '300根全棉羽丝绒抱枕芯', 39.00, 3);
+INSERT INTO `test` VALUES ('2019-11-09 21:32:16', 'http://yanxuan.nosdn.127.net/8b9328496990357033d4259fda250679.png', '160*230羊毛圈绒枪刺地毯', 899.00, 4);
+INSERT INTO `test` VALUES ('2019-11-09 21:32:37', 'http://yanxuan.nosdn.127.net/d206e0d15955b4d76431a752f2c94f9f.png', '清新宠物水食钵食盆', 9.90, 2);
+INSERT INTO `test` VALUES ('2019-11-09 21:32:37', 'http://yanxuan.nosdn.127.net/6252f53aaf36c072b6678f3d8c635132.png', '色织六层纱布夏凉被', 249.00, 2);
+INSERT INTO `test` VALUES ('2019-11-09 22:59:27', 'http://yanxuan.nosdn.127.net/83433f5a7ef69abda2544a53332a0fad.png', 'Let it go女式纯棉免洗内裤', 19.90, 1);
+INSERT INTO `test` VALUES ('2020-02-28 18:37:06', 'http://yanxuan.nosdn.127.net/83433f5a7ef69abda2544a53332a0fad.png', 'Let it go女式纯棉免洗内裤', 19.90, 1);
+INSERT INTO `test` VALUES ('2020-03-06 19:07:57', 'http://yanxuan.nosdn.127.net/83433f5a7ef69abda2544a53332a0fad.png', 'Let it go女式纯棉免洗内裤', 19.90, 1);
+INSERT INTO `test` VALUES ('2020-03-06 19:10:17', 'http://yanxuan.nosdn.127.net/8e35b003ce7895c39eeb073b1f61b1d7.png', '星空原色水晶笔', 29.00, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
