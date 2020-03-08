@@ -3,5 +3,5 @@
 
 # 2020.3.8更新
 本后端已废弃
-新后端已由spring-boot重写，详见 新后端：
+新后端已由spring-boot重写，详见 [新后端](https://github.com/mmbbhh/shop_server-remake-) 
 
